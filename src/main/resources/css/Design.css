@@ -1,0 +1,39 @@
+.logInButton {
+    -fx-background-color: linear-gradient(to right, cyan, rgb(255, 5, 213));
+    -fx-shape: "M 200 450 A 50 50 0 1 1 200 300 Q 300 300 400 300 A 50 50 0 1 1 400 450 Q 300 450 200 450 ";
+    background-color: linear-gradient(to right, cyan, rgb(255, 5, 213));
+}
+.textField {
+    -fx-background-color: rgba(15, 15, 15, 0.76);
+    -fx-shape: "M 50 450 Q 0 450 0 400 L 0 350 Q 0 300 50 300 L 500 300 L 800 300 L 800 450 Z";
+    -fx-text-fill: rgb(209, 207, 207);
+    background-color: rgba(15, 15, 15, 0.76);
+}
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+    background-color: transparent;
+}
+.scroll-pane .scroll-bar {
+    -fx-base: transparent;
+}
+.list-cell:filled:selected:focused,
+.list-cell:filled:selected {
+    -fx-background-color: linear-gradient(to right, indigo, violet);
+    -fx-text-fill: white;
+    background-color: linear-gradient(to right, indigo, violet);
+}
+.list-cell:filled:hover {
+    -fx-background-color: #0093ff;
+    -fx-text-fill: white;
+    background-color: #0093ff;
+}
+.list-cell:even {
+    -fx-background-color: black;
+    -fx-text-fill: yellow;
+    background-color: black;
+}
+.list-cell:odd {
+    -fx-background-color: black;
+    -fx-text-fill: green;
+    background-color: black;
+}
