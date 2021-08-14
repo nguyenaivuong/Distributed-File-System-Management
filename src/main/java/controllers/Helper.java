@@ -11,6 +11,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
+
 import org.apache.commons.io.FileUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -84,12 +85,12 @@ public class Helper extends GraphicalUserInterface implements Initializable {
         var message = client.getLastMessage();
         if (!message.equals("File does not exist!")) {
             byte[] fileInBytes = client.getLastMessage().getBytes();
-            Files.createDirectories(Paths.get("C:\\Network\\Downloads\\Cache\\"));
-            var newFile = new File("C:\\Network\\Downloads\\Cache\\" + selectedFile);
+            Files.createDirectories(Paths.get(USER_HOME + "/Network/Downloads/Cache/"));
+            var newFile = new File(USER_HOME + "/Network/Downloads/Cache/" + selectedFile);
             newFile.createNewFile();
 
             @Cleanup
-            var fout = new FileOutputStream("C:\\Network\\Downloads\\Cache\\" + selectedFile);
+            var fout = new FileOutputStream(USER_HOME + "/Network/Downloads/Cache/" + selectedFile);
             fout.write(fileInBytes);
             Desktop.getDesktop().open(newFile);
         } else {
@@ -119,12 +120,12 @@ public class Helper extends GraphicalUserInterface implements Initializable {
         var message = client.getLastMessage();
         if (!message.equals("File does not exist!")) {
             byte[] fileInBytes = client.getLastMessage().getBytes();
-            Files.createDirectories(Paths.get("C:\\Network\\Downloads\\"));
-            var newFile = new File("C:\\Network\\Downloads\\" + selectedFile);
+            Files.createDirectories(Paths.get(USER_HOME + "/Network/Downloads/"));
+            var newFile = new File(USER_HOME + "/Network/Downloads/" + selectedFile);
             newFile.createNewFile();
 
             @Cleanup
-            var fout = new FileOutputStream("C:\\Network\\Downloads\\" + selectedFile);
+            var fout = new FileOutputStream(USER_HOME + "/Network/Downloads/" + selectedFile);
             fout.write(fileInBytes);
             alert.setContentText("Your download is complete.");
             alert.showAndWait();
@@ -156,6 +157,6 @@ public class Helper extends GraphicalUserInterface implements Initializable {
                         .load()));
         stage.show();
         ((Stage) closeButton.getScene().getWindow()).close();
-        FileUtils.deleteDirectory(new File("C:\\Network\\Downloads\\Cache"));
+        FileUtils.deleteDirectory(new File(USER_HOME + "/Network/Downloads/Cache"));
     }
 }

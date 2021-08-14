@@ -1,6 +1,7 @@
 package main.java;
 
 import javafx.application.Application;
+
 import main.java.controllers.GraphicalUserInterface;
 
 public class Main {

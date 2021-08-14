@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+
 import lombok.Getter;
+
 import main.java.controllers.GraphicalUserInterface;
 
 public class Client {

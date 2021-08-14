@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.PlatformLoggingMXBean;
+
 import org.apache.commons.io.FileUtils;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -18,13 +19,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import main.java.client.Client;
 import main.java.server.Server;
 
 public class GraphicalUserInterface extends Application {
     public static Alert alert = new Alert(AlertType.INFORMATION);
+    protected static final String USER_HOME = System.getProperty("user.home");
     protected static Client client;
     protected static String username, serverPort, serverAddress;
+    private static final int STATUS = 0;
 
     @FXML
     protected AnchorPane pane;
@@ -68,8 +72,8 @@ public class GraphicalUserInterface extends Application {
 
     @FXML
     protected void closeWindow(MouseEvent event) throws IOException {
-        FileUtils.deleteDirectory(new File("C:\\Network\\Downloads\\Cache"));
-        System.exit(0);
+        FileUtils.deleteDirectory(new File(USER_HOME + "/Network/Downloads/Cache"));
+        System.exit(STATUS);
     }
 
     @FXML

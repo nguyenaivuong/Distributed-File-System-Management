@@ -6,12 +6,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
+
 import lombok.Cleanup;
 import lombok.Setter;
 
 public final class Server {
     private static volatile Server instance;
-    private static final int serverPort = 1024;
+    private static final int SERVER_PORT = 1024, HTTP_PORT = 80;
+    private static final String USER_HOME = System.getProperty("user.home");
     private static ServerDatagramSocket socket;
     private static String returnMessage, username;
 
@@ -19,12 +21,12 @@ public final class Server {
     private static String filename;
 
     private Server() throws SocketException, IOException {
-        socket = new ServerDatagramSocket(serverPort);
-        socket.connect(new InetSocketAddress("www.google.com", 80));
+        socket = new ServerDatagramSocket(SERVER_PORT);
+        socket.connect(new InetSocketAddress("www.google.com", HTTP_PORT));
         System.out.println("Server Address: " + socket.getLocalAddress().getHostAddress());
-        System.out.println("Server Port: " + serverPort);
+        System.out.println("Server Port: " + SERVER_PORT);
         socket.close();
-        socket = new ServerDatagramSocket(serverPort);
+        socket = new ServerDatagramSocket(SERVER_PORT);
         for (;;) {
             DatagramInfomation request = socket.receiveDatagramInfomation();
             parse(request.getMessage());
@@ -74,7 +76,7 @@ public final class Server {
     }
 
     private static void logIn(String message) {
-        var userDir = new File("C:\\Network\\" + message);
+        var userDir = new File(USER_HOME + "/Network/" + message);
         if (userDir.mkdirs())
             returnMessage = "100 Welcome, " + message + '!';
         else
@@ -88,7 +90,7 @@ public final class Server {
     }
 
     private static void listFiles() {
-        var userDirectory = new File("C:\\Network\\" + username);
+        var userDirectory = new File(USER_HOME + "/Network/" + username);
         File[] listOfFiles = userDirectory.listFiles();
         var sb = new StringBuilder();
         for (var i = 0; i < listOfFiles.length; ++i) {
@@ -104,11 +106,11 @@ public final class Server {
 
     private static void upload(String message) throws IOException {
         byte[] fileInBytes = message.getBytes();
-        var f = new File("C:\\Network\\" + username + "\\" + filename);
+        var f = new File(USER_HOME + "/Network/" + username + '/' + filename);
         f.createNewFile();
 
         @Cleanup
-        var fout = new FileOutputStream("C:\\Network\\" + username + "\\" + filename);
+        var fout = new FileOutputStream(USER_HOME + "/Network/" + username + '/' + filename);
         fout.write(fileInBytes);
         returnMessage = "301 Your upload is complete.";
     }
@@ -127,7 +129,7 @@ public final class Server {
     }
 
     private static void preview(String message) throws IOException {
-        var f = new File("C:\\Network\\" + username + "\\" + message);
+        var f = new File(USER_HOME + "/Network/" + username + '/' + message);
         if (f.isFile()) {
             byte[] fileInBytes = fileToByteArray(f.getAbsolutePath(), f.length());
             returnMessage = "302 " + new String(fileInBytes);
@@ -136,7 +138,7 @@ public final class Server {
     }
 
     private static void download(String message) throws IOException {
-        var f = new File("C:\\Network\\" + username + "\\" + message);
+        var f = new File(USER_HOME + "/Network/" + username + '/' + message);
         if (f.isFile()) {
             byte[] fileInBytes = fileToByteArray(f.getAbsolutePath(), f.length());
             returnMessage = "302 " + new String(fileInBytes);
@@ -145,7 +147,7 @@ public final class Server {
     }
 
     private static void delete(String message) {
-        var f = new File("C:\\Network\\" + username + "\\" + message);
+        var f = new File(USER_HOME + "/Network/" + username + '/' + message);
         if (f.isFile())
             if (f.delete())
                 returnMessage = "304 File is deleted!";

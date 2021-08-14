@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 public class ServerDatagramSocket extends DatagramSocket {
+    private static final short BUFFER_SIZE = 8192;
+
     public ServerDatagramSocket(int port) throws SocketException {
         super(port);
     }
@@ -18,14 +20,14 @@ public class ServerDatagramSocket extends DatagramSocket {
     }
 
     public String getMessage() throws IOException {
-        byte receiverBuffer[] = new byte[8192];
-        receive(new DatagramPacket(receiverBuffer, 8192));
+        byte receiverBuffer[] = new byte[BUFFER_SIZE];
+        receive(new DatagramPacket(receiverBuffer, BUFFER_SIZE));
         return new String(receiverBuffer);
     }
 
     public DatagramInfomation receiveDatagramInfomation() throws IOException {
-        byte receiverBuffer[] = new byte[8192];
-        var datagram = new DatagramPacket(receiverBuffer, 8192);
+        byte receiverBuffer[] = new byte[BUFFER_SIZE];
+        var datagram = new DatagramPacket(receiverBuffer, BUFFER_SIZE);
         receive(datagram);
         return new DatagramInfomation(new String(receiverBuffer), datagram.getAddress(),
                 datagram.getPort());
